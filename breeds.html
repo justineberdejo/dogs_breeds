@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Breeds Gallery | World of Dogs</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <span>World of Dogs</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="breeds.html" class="active">Breeds</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button id="darkModeToggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="mobile-menu-dropdown" id="mobileMenuDropdown">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="breeds.html">Breeds</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="breed-controls">
+            <div class="container">
+                <div class="search-container">
+                    <input type="text" id="breedSearch" placeholder="Search breeds..." aria-label="Search dog breeds">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="filter-container">
+                    <select id="sizeFilter" aria-label="Filter by size">
+                        <option value="">All Sizes</option>
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                    </select>
+                    <select id="groupFilter" aria-label="Filter by group">
+                        <option value="">All Groups</option>
+                        <option value="sporting">Sporting</option>
+                        <option value="hound">Hound</option>
+                        <option value="working">Working</option>
+                        <option value="herding">Herding</option>
+                        <option value="toy">Toy</option>
+                        <option value="non-sporting">Non-Sporting</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="breed-gallery">
+            <div class="container">
+                <div class="grid-container" id="breedGrid">
+                    <!-- Breed cards will be dynamically generated here -->
+                </div>
+                <div id="dogDataContainer" class="dog-data-container" style="display:none; margin-top: 2rem; padding: 1rem; border: 1px solid #ccc; border-radius: 12px; background: #f9f9f9;">
+                    <div class="dog-data-content" style="display:flex; gap: 1rem; align-items: flex-start;">
+                        <div class="dog-data-image" style="flex: 0 0 180px;">
+                            <img id="selectedDogImage" src="" alt="" style="width: 100%; border-radius: 12px; object-fit: cover;">
+                        </div>
+                        <div class="dog-data-info" style="flex: 1;">
+                            <h2 id="selectedDogName" style="margin-top: 0; color: var(--primary-color);"></h2>
+                            <p id="selectedDogDescription"></p>
+                            <div class="dog-data-details" style="margin-top: 1rem;">
+                                <div class="detail-item"><strong>Size:</strong> <span id="selectedDogSize"></span></div>
+                                <div class="detail-item"><strong>Group:</strong> <span id="selectedDogGroup"></span></div>
+                                <div class="detail-item"><strong>Temperament:</strong> <span id="selectedDogTemperament"></span></div>
+                                <div class="detail-item"><strong>Lifespan:</strong> <span id="selectedDogLifespan"></span></div>
+                                <div class="detail-item"><strong>Good With:</strong> <span id="selectedDogGoodWith"></span></div>
+                                <div class="detail-item"><strong>Energy Level:</strong> <span id="selectedDogEnergy"></span></div>
+                                <div class="detail-item"><strong>Grooming:</strong> <span id="selectedDogGrooming"></span></div>
+                            </div>
+                            <button class="sound-btn" id="selectedDogSoundBtn" data-sound="" style="margin-top: 1rem;">
+                                <i class="fas fa-volume-up"></i> Play Sound
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Breed Modal -->
+        <div id="breedModal" class="breed-modal" style="display:none;">
+            <div class="breed-modal-content">
+                <span class="close-modal" id="closeBreedModal" title="Close">&times;</span>
+                <div class="breed-modal-image-wrap">
+                    <img id="modalBreedImage" src="" alt="" />
+                </div>
+                <div class="breed-modal-info">
+                    <h2 id="modalBreedName"></h2>
+                    <p id="modalBreedDescription" class="modal-short-desc"></p>
+                    <p id="modalBreedFullDescription" class="modal-full-desc"></p>
+                    <ul class="modal-details-list">
+                        <li><strong>Size:</strong> <span id="modalBreedSize"></span></li>
+                        <li><strong>Group:</strong> <span id="modalBreedGroup"></span></li>
+                        <li><strong>Temperament:</strong> <span id="modalBreedTemperament"></span></li>
+                        <li><strong>Lifespan:</strong> <span id="modalBreedLifespan"></span></li>
+                        <li><strong>Good With:</strong> <span id="modalBreedGoodWith"></span></li>
+                        <li><strong>Energy:</strong> <span id="modalBreedEnergy"></span></li>
+                        <li><strong>Grooming:</strong> <span id="modalBreedGrooming"></span></li>
+                    </ul>
+                    <button class="sound-btn" id="modalSoundBtn" data-sound="">
+                        <i class="fas fa-volume-up"></i> Play Sound
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="current-year">2025</span> World of Dogs. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Dog Breed Data - Moved from Java file to HTML
+        const dogBreeds = [
+            {
+                id: 1,
+                name: "Golden Retriever",
+                image: "golden-retriever.jpg",
+                description: "Friendly, intelligent, and devoted.",
+                fullDescription: "The Golden Retriever is a friendly, intelligent, and devoted dog breed known for its loving nature and beautiful golden coat.",
+                size: "large",
+                group: "sporting",
+                temperament: "friendly, intelligent, devoted",
+                lifespan: "10-12 years",
+                goodWith: "children, other pets",
+                energy: 4,
+                grooming: "medium",
+                sound: "golden-retriever-bark.mp3"
+            },
+            {
+                id: 2,
+                name: "Labrador Retriever",
+                image: "labrador-retriever.jpg",
+                description: "Outgoing, even-tempered, and gentle.",
+                fullDescription: "The Labrador Retriever is an outgoing, even-tempered, and gentle dog breed, popular as a family pet and working dog.",
+                size: "large",
+                group: "sporting",
+                temperament: "outgoing, even-tempered, gentle",
+                lifespan: "10-12 years",
+                goodWith: "children, other pets",
+                energy: 4,
+                grooming: "low",
+                sound: "labrador-bark.mp3"
+            },
+            {
+                id: 3,
+                name: "Beagle",
+                image: "beagle.jpg",
+                description: "Curious, friendly, and merry.",
+                fullDescription: "The Beagle is a curious, friendly, and merry dog breed, known for its excellent sense of smell and tracking instincts.",
+                size: "medium",
+                group: "hound",
+                temperament: "curious, friendly, merry",
+                lifespan: "12-15 years",
+                goodWith: "children, other pets",
+                energy: 4,
+                grooming: "low",
+                sound: "beagle-bark.mp3"
+            },
+            {
+                id: 4,
+                name: "Bulldog",
+                image: "bulldog.jpg",
+                description: "Calm, courageous, and friendly.",
+                fullDescription: "The Bulldog is a calm, courageous, and friendly dog breed, recognized for its distinctive wrinkled face and muscular build.",
+                size: "medium",
+                group: "non-sporting",
+                temperament: "calm, courageous, friendly",
+                lifespan: "8-10 years",
+                goodWith: "children, other pets",
+                energy: 2,
+                grooming: "medium",
+                sound: "bulldog-bark.mp3"
+            },
+            {
+                id: 5,
+                name: "Poodle",
+                image: "poodle.jpg",
+                description: "Active, proud, and very smart.",
+                fullDescription: "The Poodle is an active, proud, and very smart dog breed, known for its curly coat and high intelligence.",
+                size: "medium",
+                group: "non-sporting",
+                temperament: "active, proud, smart",
+                lifespan: "12-15 years",
+                goodWith: "children, other pets",
+                energy: 4,
+                grooming: "high",
+                sound: "poodle-bark.mp3"
+            },
+            {
+                id: 6,
+                name: "German Shepherd",
+                image: "german-shepherd.jpg",
+                description: "Confident, courageous, and smart.",
+                fullDescription: "The German Shepherd is a confident, courageous, and smart dog breed, widely used in police and military roles.",
+                size: "large",
+                group: "herding",
+                temperament: "confident, courageous, smart",
+                lifespan: "9-13 years",
+                goodWith: "children, other pets",
+                energy: 5,
+                grooming: "medium",
+                sound: "german-shepherd-bark.mp3"
+            },
+            {
+                id: 7,
+                name: "Dachshund",
+                image: "dachshund.jpg",
+                description: "Spunky, curious, and friendly.",
+                fullDescription: "The Dachshund is a spunky, curious, and friendly dog breed, known for its long body and short legs.",
+                size: "small",
+                group: "hound",
+                temperament: "spunky, curious, friendly",
+                lifespan: "12-16 years",
+                goodWith: "children, other pets",
+                energy: 3,
+                grooming: "low",
+                sound: "dachshund-bark.mp3"
+            },
+            {
+                id: 8,
+                name: "Boxer",
+                image: "boxer.jpg",
+                description: "Bright, fun-loving, and active.",
+                fullDescription: "The Boxer is a bright, fun-loving, and active dog breed, known for its muscular build and playful nature.",
+                size: "large",
+                group: "working",
+                temperament: "bright, fun-loving, active",
+                lifespan: "10-12 years",
+                goodWith: "children, other pets",
+                energy: 5,
+                grooming: "low",
+                sound: "boxer-bark.mp3"
+            },
+            {
+                id: 9,
+                name: "Shih Tzu",
+                image: "shih-tzu.jpg",
+                description: "Outgoing, affectionate, and playful.",
+                fullDescription: "The Shih Tzu is an outgoing, affectionate, and playful dog breed, known for its long flowing coat and friendly personality.",
+                size: "small",
+                group: "toy",
+                temperament: "outgoing, affectionate, playful",
+                lifespan: "10-16 years",
+                goodWith: "children, other pets",
+                energy: 3,
+                grooming: "high",
+                sound: "shih-tzu-bark.mp3"
+            },
+            {
+                id: 10,
+                name: "Siberian Husky",
+                image: "siberian-husky.jpg",
+                description: "Friendly, outgoing, and energetic.",
+                fullDescription: "The Siberian Husky is a friendly, outgoing, and energetic dog breed, known for its thick coat and striking blue eyes.",
+                size: "medium",
+                group: "working",
+                temperament: "friendly, outgoing, energetic",
+                lifespan: "12-14 years",
+                goodWith: "children, other pets",
+                energy: 5,
+                grooming: "medium",
+                sound: "siberian-husky-bark.mp3"
+            },
+            {
+                id: 11,
+                name: "Chihuahua",
+                image: "chihuahua.jpg",
+                description: "Lively, alert, and courageous.",
+                fullDescription: "The Chihuahua is a lively, alert, and courageous dog breed, known for its small size and big personality.",
+                size: "small",
+                group: "toy",
+                temperament: "lively, alert, courageous",
+                lifespan: "12-20 years",
+                goodWith: "children, other pets",
+                energy: 3,
+                grooming: "low",
+                sound: "chihuahua-bark.mp3"
+            },
+            {
+                id: 12,
+                name: "Great Dane",
+                image: "great-dane.jpg",
+                description: "Friendly, patient, and dependable.",
+                fullDescription: "The Great Dane is a friendly, patient, and dependable dog breed, known for its giant size and gentle nature.",
+                size: "large",
+                group: "working",
+                temperament: "friendly, patient, dependable",
+                lifespan: "7-10 years",
+                goodWith: "children, other pets",
+                energy: 3,
+                grooming: "low",
+                sound: "great-dane-bark.mp3"
+            },
+            {
+                id: 13,
+                name: "Corgi",
+                image: "corgi.jpg",
+                description: "Playful, smart, and affectionate.",
+                fullDescription: "The Corgi is a playful, smart, and affectionate dog breed, known for its short legs and big ears.",
+                size: "small",
+                group: "herding",
+                temperament: "playful, smart, affectionate",
+                lifespan: "12-15 years",
+                goodWith: "children, other pets",
+                energy: 4,
+                grooming: "medium",
+                sound: "corgi-bark.mp3"
+            },
+            {
+                id: 14,
+                name: "Dalmatian",
+                image: "dalmatian.jpg",
+                description: "Outgoing, energetic, and playful.",
+                fullDescription: "The Dalmatian is an outgoing, energetic, and playful dog breed, known for its distinctive spotted coat.",
+                size: "medium",
+                group: "sporting",
+                temperament: "outgoing, energetic, playful",
+                lifespan: "10-13 years",
+                goodWith: "children, other pets",
+                energy: 5,
+                grooming: "low",
+                sound: "dalmatian-bark.mp3"
+            },
+            {
+                id: 15,
+                name: "Border Collie",
+                image: "border-collie.jpg",
+                description: "Intelligent, energetic, and hardworking.",
+                fullDescription: "The Border Collie is an intelligent, energetic, and hardworking dog breed, known for its herding abilities and high energy.",
+                size: "medium",
+                group: "herding",
+                temperament: "intelligent, energetic, hardworking",
+                lifespan: "12-15 years",
+                goodWith: "children, other pets",
+                energy: 5,
+                grooming: "medium",
+                sound: "border-collie-bark.mp3"
+            }
+        ];
+
+        // Fun Facts
+        const funFacts = [
+            "Dogs have three eyelids, including one to keep their eyes moist and protected.",
+            "A dog's sense of smell is 10,000 to 100,000 times more acute than a human's.",
+            "Dalmatians are born without spots; they develop them as they grow.",
+            "The Basenji is the only dog breed that doesn't bark, but it yodels instead.",
+            "Dogs dream, especially puppies and senior dogs, often twitching in their sleep.",
+            "The Labrador Retriever has been the most popular breed in the U.S. for over 30 years.",
+            "A dog's nose print is as unique as a human's fingerprint.",
+            "Greyhounds are the fastest dog breed, reaching speeds up to 45 mph.",
+            "Dogs can understand up to 250 words and gestures.",
+            "The Australian Shepherd was actually developed in the United States.",
+            "Poodles were originally bred as water retrievers, not just show dogs.",
+            "The Border Collie is considered one of the smartest dog breeds.",
+            "Chihuahuas are named after the Mexican state of Chihuahua.",
+            "Great Danes can stand over 7 feet tall on their hind legs.",
+            "Corgis were bred to herd cattle, despite their small size.",
+            "Siberian Huskies can withstand temperatures as low as -60°F.",
+            "French Bulldogs can't swim due to their short snouts and dense bodies.",
+            "The Shih Tzu's name means 'lion dog' in Chinese.",
+            "Rottweilers were used to herd livestock in ancient Rome.",
+            "Pugs were favored by Chinese emperors and often lived in luxury."
+        ];
+
+        // DOM Elements
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenuDropdown = document.getElementById('mobileMenuDropdown');
+        const nav = document.querySelector('nav');
+        const breedSearch = document.getElementById('breedSearch');
+        const sizeFilter = document.getElementById('sizeFilter');
+        const groupFilter = document.getElementById('groupFilter');
+        const breedGrid = document.getElementById('breedGrid');
+        const breedModal = document.getElementById('breedModal');
+        const closeBreedModal = document.getElementById('closeBreedModal');
+
+        // Hamburger menu toggle
+        mobileMenuDropdown.style.display = 'none';
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (mobileMenuDropdown.style.display === 'block') {
+                mobileMenuDropdown.style.display = 'none';
+            } else {
+                mobileMenuDropdown.style.display = 'block';
+            }
+        });
+        document.addEventListener('click', function(e) {
+            if (!mobileMenuBtn.contains(e.target) && !mobileMenuDropdown.contains(e.target)) {
+                mobileMenuDropdown.style.display = 'none';
+            }
+        });
+
+        // Initialize the page
+        function init() {
+            const year = new Date().getFullYear();
+            document.getElementById('current-year').textContent = year;
+            
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            displayDailyFact();
+            renderBreedCards(dogBreeds);
+            setupEventListeners();
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', toggleDarkMode);
+            }
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            }
+            if (breedSearch) {
+                breedSearch.addEventListener('input', filterBreeds);
+            }
+            if (sizeFilter) {
+                sizeFilter.addEventListener('change', filterBreeds);
+            }
+            if (groupFilter) {
+                groupFilter.addEventListener('change', filterBreeds);
+            }
+            if (closeBreedModal) {
+                closeBreedModal.addEventListener('click', closeModal);
+            }
+            window.addEventListener('click', (e) => {
+                if (e.target === breedModal) {
+                    closeModal();
+                }
+            });
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                localStorage.setItem('theme', 'light');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            nav.classList.toggle('active');
+            document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        // Display daily fun fact
+        function displayDailyFact() {
+            const factElement = document.getElementById('dailyFact');
+            if (factElement) {
+                const today = new Date().getDate();
+                const factIndex = today % funFacts.length;
+                factElement.textContent = funFacts[factIndex];
+            }
+        }
+
+        // Render breed cards
+        function renderBreedCards(breeds = dogBreeds) {
+            if (!breedGrid) return;
+            breedGrid.innerHTML = '';
+
+            breeds.forEach(breed => {
+                const card = document.createElement('div');
+                card.className = 'breed-card';
+
+                card.innerHTML = `
+                    <img class="breed-img-clickable" src="assets/images/${breed.image}" alt="${breed.name}" onerror="this.src='assets/images/placeholder.jpg'; console.warn('Failed to load image: assets/images/${breed.image}')">
+                    <h3>${breed.name}</h3>
+                    <p>${breed.description}</p>
+                    <div class="breed-actions">
+                        <button class="sound-btn" data-sound="assets/sounds/${breed.sound}" title="Play Bark">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                    </div>
+                `;
+
+                // Play sound on click
+                card.querySelector('.sound-btn').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const audio = new Audio(this.dataset.sound);
+                    audio.play().catch(error => console.warn('Failed to play audio:', this.dataset.sound, error));
+                });
+
+                // Clicking the image opens the modal
+                card.querySelector('.breed-img-clickable').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    openBreedModal(breed.id);
+                });
+
+                // Clicking anywhere on the card opens the modal
+                card.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('sound-btn')) {
+                        openBreedModal(breed.id);
+                    }
+                });
+
+                breedGrid.appendChild(card);
+            });
+        }
+
+        // Filter breeds
+        function filterBreeds() {
+            const searchTerm = breedSearch.value.toLowerCase();
+            const sizeValue = sizeFilter.value;
+            const groupValue = groupFilter.value;
+            
+            const filteredBreeds = dogBreeds.filter(breed => {
+                const matchesSearch = breed.name.toLowerCase().includes(searchTerm) || 
+                                    breed.description.toLowerCase().includes(searchTerm);
+                const matchesSize = sizeValue ? breed.size === sizeValue : true;
+                const matchesGroup = groupValue ? breed.group === groupValue : true;
+                
+                return matchesSearch && matchesSize && matchesGroup;
+            });
+            
+            renderBreedCards(filteredBreeds);
+        }
+
+        // Open breed modal
+        function openBreedModal(breedId) {
+            const breed = dogBreeds.find(b => b.id === breedId);
+            if (!breed) return;
+
+            document.getElementById('modalBreedImage').src = `assets/images/${breed.image}`;
+            document.getElementById('modalBreedImage').alt = breed.name;
+            document.getElementById('modalBreedName').textContent = breed.name;
+            document.getElementById('modalBreedDescription').textContent = breed.description;
+            document.getElementById('modalBreedFullDescription').textContent = breed.fullDescription;
+            document.getElementById('modalBreedSize').textContent = breed.size.charAt(0).toUpperCase() + breed.size.slice(1);
+            document.getElementById('modalBreedGroup').textContent = breed.group.charAt(0).toUpperCase() + breed.group.slice(1);
+            document.getElementById('modalBreedTemperament').textContent = breed.temperament.charAt(0).toUpperCase() + breed.temperament.slice(1);
+            document.getElementById('modalBreedLifespan').textContent = breed.lifespan;
+            document.getElementById('modalBreedGoodWith').textContent = breed.goodWith;
+            document.getElementById('modalBreedEnergy').textContent = breed.energy;
+            document.getElementById('modalBreedGrooming').textContent = breed.grooming.charAt(0).toUpperCase() + breed.grooming.slice(1);
+
+            const modalSoundBtn = document.getElementById('modalSoundBtn');
+            modalSoundBtn.setAttribute('data-sound', `assets/sounds/${breed.sound}`);
+            modalSoundBtn.onclick = function(e) {
+                e.stopPropagation();
+                const audio = new Audio(this.dataset.sound);
+                audio.play().catch(error => console.warn('Failed to play audio:', this.dataset.sound, error));
+            };
+
+            breedModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeModal() {
+            breedModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Dark Mode Toggle Functionality
+        darkModeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                localStorage.setItem('theme', 'light');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+
+        // Hamburger menu toggle
+        mobileMenuBtn.addEventListener('click', function() {
+            nav.classList.toggle('active');
+            document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

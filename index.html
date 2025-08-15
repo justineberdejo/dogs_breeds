@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World of Dogs | Discover Canine Breeds</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <span>World of Dogs</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="breeds.html">Breeds</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button id="darkModeToggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="mobile-menu-dropdown" id="mobileMenuDropdown">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="breeds.html">Breeds</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="landing-main">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Welcome to the World of Dogs</h1>
+                <p class="subtitle">Learn, Listen &amp; Love Every Breed!</p>
+                <a href="breeds.html" class="cta-button">Explore Breeds</a>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="container">
+                <div class="feature-card">
+                    <i class="fas fa-dog"></i>
+                    <h3>Discover Breeds</h3>
+                    <p>Explore hundreds of dog breeds with detailed information.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-volume-up"></i>
+                    <h3>Hear Their Voices</h3>
+                    <p>Listen to unique barks and howls of each breed.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Find Your Match</h3>
+                    <p>Take our quiz to find your perfect canine companion.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="current-year">2025</span> World of Dogs. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Dark Mode Toggle Functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                localStorage.setItem('theme', 'light');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+
+        // Hamburger menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenuDropdown = document.getElementById('mobileMenuDropdown');
+        mobileMenuDropdown.style.display = 'none';
+        mobileMenuBtn.addEventListener('click', function() {
+            if (mobileMenuDropdown.style.display === 'block') {
+                mobileMenuDropdown.style.display = 'none';
+            } else {
+                mobileMenuDropdown.style.display = 'block';
+            }
+        });
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!mobileMenuBtn.contains(e.target) && !mobileMenuDropdown.contains(e.target)) {
+                mobileMenuDropdown.style.display = 'none';
+            }
+        });
+
+        // Initialize theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+    </script>
+</body>
+</html>

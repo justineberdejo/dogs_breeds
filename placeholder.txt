@@ -1,0 +1,1 @@
+This is a placeholder file to create the assets/sounds directory. Please add your dog breed sound files here with the correct filenames as referenced in script.js.
